@@ -26,10 +26,7 @@ class Game(db.Model):
     player = db.Column(db.String(50))
 
     def __init__(self, player):
-        if len(player) == 1:
-            self.player = player.upper()
-        else:
-            self.player = player[0:1].upper() + player[1:].lower()
+        self.player = player.capitalize()
 
     @property
     def errors(self):
