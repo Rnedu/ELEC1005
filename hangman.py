@@ -84,7 +84,8 @@ def home():
 @app.route('/play')
 def new_game():
     player = flask.request.args.get('player')
-    game = Game(player)
+    difficulty = flask.request.args.get(('difficulty_level')
+    game = Game(player, difficulty)
     db.session.add(game)
     db.session.commit()
     return flask.redirect(flask.url_for('play', game_id=game.pk))
