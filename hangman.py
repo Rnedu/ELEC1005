@@ -26,18 +26,28 @@ def base_path(path):
 def random_pk():
     return random.randint(1e9, 1e10)
 
-def random_word():
-    words = [line.strip() for line in open('words.txt') if len(line) > 10]
+
+def random_word(difficulty):
+    
+"""Based on the difficulty level input by the user, the length of the word changes to make it easy hard or difficult."""
+    
+    if difficulty == "Easy":
+        words = [line.strip() for line in open('words.txt') if 4 <= len(line) <= 6]
+    elif difficulty == "Medium":
+        words = [line.strip() for line in open('words.txt') if (len(line) <= 9 and len(line) > 6)]
+    else:
+        words = [line.strip() for line in open('words.txt') if (len(line) > 9)]
     return random.choice(words).upper()
 
 class Game(db.Model):
     pk = db.Column(db.Integer, primary_key=True, default=random_pk)
-    word = db.Column(db.String(50), default=random_word)
-    tried = db.Column(db.Unicode, default='')
+    word = db.Column(db.String(50), default=random_word("Easy"))
+    tried = db.Column(db.String(50), default='')
     player = db.Column(db.String(50))
 
-    def __init__(self, player):
+    def __init__(self, player, difficulty):
         self.player = player.capitalize()
+        self.difficulty = difficulty
 
     @property
     def errors(self):
@@ -104,7 +114,8 @@ def home():
 @app.route('/play')
 def new_game():
     player = flask.request.args.get('player')
-    game = Game(player)
+    difficulty = flask.request.args.get(('difficulty_level')
+    game = Game(player, difficulty)
     db.session.add(game)
     db.session.commit()
     return flask.redirect(flask.url_for('play', game_id=game.pk))
