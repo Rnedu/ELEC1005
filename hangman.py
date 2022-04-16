@@ -2,6 +2,8 @@ import random
 
 import flask
 from flask_sqlalchemy import SQLAlchemy
+import os, sys
+import webbrowser
 
 app = flask.Flask(__name__)
 
@@ -9,6 +11,15 @@ app = flask.Flask(__name__)
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///hangman.db'
 db = SQLAlchemy(app)
+
+
+def base_path(path):
+    if getattr(sys, 'frozen', None):
+        basedir = sys._MEIPASS
+    else:
+        basedir = os.path.dirname(__file__)
+    return os.path.join(basedir, path)
+
 
 # Model
 
@@ -50,12 +61,31 @@ class Game(db.Model):
     def points(self):
         return 100 + 2*len(set(self.word)) + len(self.word) - 10*len(self.errors)
 
+    @property
+    def real_errors(self):
+        str1 = ""
+        for i in range(0,len(self.tried)):
+            if self.tried[i] in set(self.word):
+                str1 = self.tried[i:]
+                break
+        return ''.join(set(str1) - set(self.word))
+
     # Play
 
     def try_letter(self, letter):
-        if not self.finished and letter not in self.tried:
-            self.tried += letter
-            db.session.commit()
+        if not self.finished:
+            if len(letter) == 1 and letter not in self.tried:
+                self.tried += letter
+                db.session.commit()
+            elif letter == self.word:
+                self.tried = self.word
+                db.session.commit()
+            elif letter != self.word:
+                for i in range(65,91):
+                    if chr(i) not in set(self.word.upper()) and len(self.errors)<6:
+                        self.tried += chr(i)
+                db.session.commit()
+
 
     # Game status
 
@@ -65,7 +95,7 @@ class Game(db.Model):
 
     @property
     def lost(self):
-        return len(self.errors) == 6
+        return len(self.real_errors) >= 6
 
     @property
     def finished(self):
@@ -96,13 +126,14 @@ def play(game_id):
 
     if flask.request.method == 'POST':
         letter = flask.request.form['letter'].upper()
-        if len(letter) == 1 and letter.isalpha():
+        if letter.isalpha() and (len(letter) == 1 or len(letter) == len(game.word)):
             game.try_letter(letter)
 
     if flask.request.is_xhr:
         return flask.jsonify(current=game.current,
                              errors=game.errors,
-                             finished=game.finished)
+                             finished=game.finished,
+                             real_errors= game.real_errors)
     else:
         return flask.render_template('play.html', game=game)
 
@@ -110,4 +141,3 @@ def play(game_id):
 
 if __name__ == '__main__':
     app.run()
-
