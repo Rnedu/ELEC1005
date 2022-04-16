@@ -1,4 +1,5 @@
 import random
+import time
 
 import flask
 from flask_sqlalchemy import SQLAlchemy
@@ -118,6 +119,7 @@ def new_game():
     game = Game(player, difficulty)
     db.session.add(game)
     db.session.commit()
+    time.sleep(2)
     return flask.redirect(flask.url_for('play', game_id=game.pk))
 
 @app.route('/play/<game_id>', methods=['GET', 'POST'])
