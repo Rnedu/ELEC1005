@@ -46,7 +46,7 @@ class Game(db.Model):
     player = db.Column(db.String(50))
 
     def __init__(self, player, difficulty):
-        self.player = player
+        self.player = player.capitalize()
         self.difficulty = difficulty
 
     @property
