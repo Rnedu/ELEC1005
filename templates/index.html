@@ -13,19 +13,54 @@
     <link rel="stylesheet"
           href="{{ url_for('static', filename='main.css') }}">
   </head>
-  <body>
+  <!-- CSS CODE FOR BACKGROUND IMAGE -->
+  <body id="body">
     <div class="container text-center">
-      <h1>Hangman game</h1>
+      <h1 class="cover_page_title" id="cover_page_title">Hangman</h1>
+    <!-- CSS CODE DECLARING FONTS AND TITLE CODE-->
+      <style>
+          @font-face {
+              font-family: midevil;
+              src: url("/static/midevil.ttf");
+          }
+           @font-face {
+              font-family: midenglish;
+              src: url("/static/midenglish.ttf");
+          }
+          .cover_page_title {
+              font-family: midevil;
+              font-size: 150px;
+              color:  black;
+              backface-visibility: hidden;
+          }
+
+          .cover_page_title:hover {
+              color: darkred;
+          }
+
+      </style>
+
       <div class="row vspace">
         <div class="col-md-6 col-md-offset-3">
           {% block content %}{% endblock %}
         </div>
       </div>
     </div>
-
+    <script>
+        function highlight() {
+            var el = document.getElementById('cover_page_title');
+            var original = el.style.color;
+            el.style.color='#8b0000';
+            window.setTimeout(function() { el.style.color = original; }, 500);
+        }
+        $( "#cover_page_title" ).hover(function() {
+            $('body').css("background", "url(/static/blood.jpg)");
+        });
+    </script>
     <script src="{{ url_for('static', filename='jquery.min.js') }}"></script>
     <script src="{{ url_for('static', filename='bootstrap.min.js') }}"></script>
 
     {% block bottom %}{% endblock %}
   </body>
 </html>
+
