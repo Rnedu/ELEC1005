@@ -21,18 +21,33 @@ $('#letter-form').submit(function(e) {
         $('#current').text(data.current);
         
         /* Update errors */
-        $('#errors').html(
-          'Errors (' + data.errors.length + '/6): ' +
-          '<span class="text-danger spaced">' + data.errors + '</span>');
+        $('#real_errors').html(
+          'Errors (' + data.real_errors.length + '/6): ' +
+
+          '<span class="text-danger spaced">' + data.real_errors + '</span>');
           
         /* Update drawing */
-        updateDrawing(data.errors);
+        updateDrawing(data.real_errors);
       }
     }
   });
   e.preventDefault();
 });
 
-function updateDrawing(errors) {
-  $('#hangman-drawing').children().slice(0, errors.length).show();
+
+function updateDrawing(real_errors) {
+  $('#hangman-drawing').children().slice(0, real_errors.length).show();
 }
+
+
+
+
+
+
+
+
+
+
+
+
+

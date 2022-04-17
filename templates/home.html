@@ -1,33 +1,170 @@
 {% extends 'index.html' %}
 
 {% block content %}
-  <form action="{{ url_for('new_game') }}" class="form-inline">
+    <!-- CSS CODE FOR BACKGROUND IMAGE AND FONT DECLARATION -->
+    <style>
+        body{
+            background-color: black;
+            background-image: url("/static/cover_page.png");
+            background-repeat: no-repeat;
+            background-size: contain;
+            background-attachment: scroll;
+        }
+        @font-face {
+              font-family: midenglish;
+              src: url("/static/midenglish.ttf");
+        }
+        h3 {
+              font-family: midenglish;
+              font-size: 30px;
+              color: black;
+        }
+        h2 {
+            font-family: midenglish;
+            font-size: 50px;
+            color: black;
+        }
+
+        input[type=text] {
+          width: 100%;
+          padding: 12px 20px;
+          margin: 8px 0;
+          color: black;
+          box-sizing: border-box;
+        }
+
+        select {
+          width: 100%;
+          color: black;
+          padding: 12px 20px;
+          margin: 8px 0;
+          box-sizing: border-box;
+        }
+
+        .play_button {
+          width: 100%;
+          padding: 12px 20px;
+          margin: 8px 0;
+          box-sizing: border-box;
+          background-color: darkred;
+          color: white;
+          font-family: midenglish;
+          font-size: 30px;
+        }
+        .play_button:hover {
+            background-image: url("/static/blood.jpg");
+        }
+    </style>
+
+    <!-- HTML CODE FOR INPUT FORM -->
+  <form name="inputForm" action="{{ url_for('new_game') }}" class="form-inline" onsubmit="return validateForm()">
     <div class="form-group vspace">
-      <input name="player" class="input-lg" required="required"
-             placeholder="Your name">
-      <button class="btn btn-primary btn-lg" type="submit">Play!</button>
+      <h3>Enter your name:</h3>
+      <script language="Javascript">
+        function validateForm() {
+          var x = document.forms["inputForm"]["player"].value;
+          if (x == "") {
+            alert("Please fill out your name to play the game.");
+            return false;
+          }
+        }
+  </script>
+      <input style="color: black" name="player" class="input-lg">
+      <!-- HTML CODE FOR DROPDOWN OF DIFFICULTY LEVEL-->
+      <div class="dropdown">
+        <br><br>
+        <h3>Choose Difficulty Level:</h3>
+
+        <select required="required" type="" name="difficulty_level">
+        <div class="dropdown-content">
+            <option>Easy</option>
+            <option>Medium</option>
+            <option>Hard</option>
+        </div>
+        </select>
+      </div>
+      <br><br><br>
+      <script>
+          function playSoundButton(url) {
+              new Audio(url).play();
+          }
+    </script>
+      <button class="play_button" onmousedown="playSoundButton('/static/click.mp3')" type="submit">Play!</button>
+      <br><br><br><br><br><br>
     </div>
   </form>
-
-  <div class="panel panel-default vspace">
-    <div class="panel-heading">Top 10</div>
-    <table class="table">
-      <thead>
-        <tr>
-          <th>#</th>
-          <th>Player</th>
-          <th>Word</th>
-          <th>Errors</th>
-          <th>Points</th>
-      <tbody>
-        {% for game in games %}
-          <tr>
-            <td>{{ loop.index }}</td>
-            <td>{{ game.player }}</td>
-            <td class="text-success">{{ game.current }}</td>
-            <td class="text-danger spaced">{{ game.errors }}</td>
-            <td>{{ game.points }}</td>
-        {% endfor %}
-    </table>
+    <!-- HEADING FOR LEADERBOARD -->
+    <h2>Leaderboard</h2>
+    <br><br>
+    <!-- TABLE FOR TOP 10 WINNERS OF CATEGORY: EASY -->
+  <div>
+      <div class="panel panel-default vspace">
+        <div class="panel-heading">Top 10: Easy</div>
+        <table class="table">
+          <thead>
+            <tr>
+              <th style="background-color: white; color: black">#</th>
+              <th style="background-color: white; color: black">Player</th>
+              <th style="background-color: white; color: black">Word</th>
+              <th style="background-color: white; color: black">Errors</th>
+              <th style="background-color: white; color: black">Points</th>
+          <tbody>
+            {% for game in games %}
+              <tr>
+                <td style="background-color: white; color: black">{{ loop.index }}</td>
+                <td style="background-color: white; color: black">{{ game.player }}</td>
+                <td class="text-success">{{ game.current}}</td>
+                <td style="background-color: white; color: black" class="text-danger spaced">{{ game.errors }}</td>
+                <td style="background-color: white; color: black">{{ game.points }}</td>
+            {% endfor %}
+        </table>
+      </div>
+        <br><br>
+      <!-- TABLE FOR TOP 10 WINNERS OF CATEGORY: MEDIUM -->
+      <div class="panel panel-default vspace">
+        <div class="panel-heading">Top 10: Medium</div>
+        <table class="table">
+          <thead>
+            <tr>
+              <th style="background-color: white; color: black">#</th>
+              <th style="background-color: white; color: black">Player</th>
+              <th style="background-color: white; color: black">Word</th>
+              <th style="background-color: white; color: black">Errors</th>
+              <th style="background-color: white; color: black">Points</th>
+          <tbody>
+            {% for game in games %}
+              <tr>
+                <td style="background-color: white; color: black">{{ loop.index }}</td>
+                <td style="background-color: white; color: black">{{ game.player }}</td>
+                <td class="text-success">{{ game.current }}</td>
+                <td style="background-color: white; color: black" class="text-danger spaced">{{ game.errors }}</td>
+                <td style="background-color: white; color: black">{{ game.points }}</td>
+            {% endfor %}
+        </table>
+      </div>
+        <br><br>
+      <!-- TABLE FOR TOP 10 WINNERS OF CATEGORY: HARD -->
+      <div  class="panel panel-default vspace">
+        <div class="panel-heading">Top 10: Hard</div>
+        <table class="table">
+          <thead>
+            <tr>
+              <th style="background-color: white; color: black">#</th>
+              <th style="background-color: white; color: black">Player</th>
+              <th style="background-color: white; color: black">Word</th>
+              <th style="background-color: white; color: black">Errors</th>
+              <th style="background-color: white; color: black">Points</th>
+          <tbody>
+            {% for game in games %}
+              <tr>
+                <td style="background-color: white; color: black">{{ loop.index }}</td>
+                <td style="background-color: white; color: black">{{ game.player }}</td>
+                <td class="text-success">{{ game.current }}</td>
+                <td style="background-color: white; color: black" class="text-danger spaced">{{ game.errors }}</td>
+                <td style="background-color: white; color: black">{{ game.points }}</td>
+            {% endfor %}
+        </table>
+      </div>
   </div>
+
 {% endblock %}

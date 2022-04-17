@@ -29,26 +29,24 @@ def random_pk():
 
 
 def random_word(difficulty):
-    
-"""Based on the difficulty level input by the user, the length of the word changes to make it easy hard or difficult."""
-    
-    if difficulty == "Easy":
+    if difficulty == "EASY":
         words = [line.strip() for line in open('words.txt') if 4 <= len(line) <= 6]
-    elif difficulty == "Medium":
-        words = [line.strip() for line in open('words.txt') if (len(line) <= 9 and len(line) > 6)]
+    elif difficulty == "MEDIUM":
+        words = [line.strip() for line in open('words.txt') if 6 < len(line) <= 9]
     else:
-        words = [line.strip() for line in open('words.txt') if (len(line) > 9)]
+        words = [line.strip() for line in open('words.txt') if 9 < len(line)]
     return random.choice(words).upper()
 
 class Game(db.Model):
     pk = db.Column(db.Integer, primary_key=True, default=random_pk)
-    word = db.Column(db.String(50), default=random_word("Easy"))
+    word = db.Column(db.String(50), default=random_word("EASY"))
     tried = db.Column(db.String(50), default='')
     player = db.Column(db.String(50))
 
     def __init__(self, player, difficulty):
         self.player = player.capitalize()
         self.difficulty = difficulty
+        self.word = random_word(difficulty.upper())
 
     @property
     def errors(self):
@@ -65,7 +63,7 @@ class Game(db.Model):
     @property
     def real_errors(self):
         str1 = ""
-        for i in range(0,len(self.tried)):
+        for i in range(0, len(self.tried)):
             if self.tried[i] in set(self.word):
                 str1 = self.tried[i:]
                 break
@@ -115,7 +113,7 @@ def home():
 @app.route('/play')
 def new_game():
     player = flask.request.args.get('player')
-    difficulty = flask.request.args.get(('difficulty_level')
+    difficulty = flask.request.args.get('difficulty_level')
     game = Game(player, difficulty)
     db.session.add(game)
     db.session.commit()
@@ -135,7 +133,7 @@ def play(game_id):
         return flask.jsonify(current=game.current,
                              errors=game.errors,
                              finished=game.finished,
-                             real_errors= game.real_errors)
+                             real_errors=game.real_errors)
     else:
         return flask.render_template('play.html', game=game)
 
