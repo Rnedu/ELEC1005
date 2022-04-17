@@ -25,6 +25,11 @@ $('#letter-form').submit(function(e) {
           'Errors (' + data.real_errors.length + '/6): ' +
 
           '<span class="text-danger spaced">' + data.real_errors + '</span>');
+
+        $('#tried').html(
+          'Tried (' + data.tried.length + '): ' +
+  
+          '<span class="text-danger spaced">' + data.tried + '</span>');
           
         /* Update drawing */
         updateDrawing(data.real_errors);
@@ -38,16 +43,3 @@ $('#letter-form').submit(function(e) {
 function updateDrawing(real_errors) {
   $('#hangman-drawing').children().slice(0, real_errors.length).show();
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
