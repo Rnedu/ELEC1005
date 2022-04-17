@@ -1,3 +1,9 @@
+/* CSS CODE FOR BACKGROUND IMAGE */
+body {
+  background-image: url("cover_page.png");
+  background-color: black;
+  background-repeat: no-repeat;
+}
 
 th {
   text-align: center
@@ -21,5 +27,6 @@ th {
 }
 
 #hangman-drawing > * {
-  display: none
+  display: none;
+  color: black;
 }
