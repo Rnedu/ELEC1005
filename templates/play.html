@@ -45,8 +45,6 @@
       <br><br>
     <p>
       <a style="font-family: midenglish; font-size: 30px; background-color: darkred; padding: 12px 20px; " onmousedown="playSoundButton('/static/click.mp3')" href="{{ url_for('home') }}">Home</a>
-      <a style="font-family: midenglish; font-size: 30px; background-color: darkred; padding: 12px 20px;" onmousedown="playSoundButton('/static/click.mp3')" href="{{ url_for('new_game') }}?player={{ game.player }}?difficulty={{ game.difficulty }}">
-        Play again
       </a>
     <style>
         a {
@@ -79,12 +77,14 @@
     <h1 id="current" class="spaced">{{ game.current }}</h1>
   {% endif %}
 
-  <h2 class="vspace" id="errors">
+  <h2 class="vspace" id="real_errors">
     Errors ({{ game.real_errors|length }}/6):
-    <span class="text-danger spaced">{{ game.errors }}</span>
+    <span class="text-danger spaced">{{ game.real_errors }}</span>
   </h2>
-    <h2> print: {{ game.errors }}</h2>
-    <h2> print: {{ game.real_errors }}</h2>
+  <h2 class="vspace" id="tried">
+    Tried ({{ game.tried|length }}): 
+    <span class="text-info spaced">{{ game.tried }}</span>
+  </h2>
   {% if not game.finished %}
     <form method="post" id="letter-form" class="form-inline vspace">
       <div class="form-group">

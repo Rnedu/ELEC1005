@@ -4,7 +4,7 @@
     <!-- CSS CODE FOR BACKGROUND IMAGE AND FONT DECLARATION -->
     <style>
         body{
-            background-color: black;
+            background-color: rgb(87, 36, 36);
             background-image: url("/static/cover_page.png");
             background-repeat: no-repeat;
             background-size: contain;
@@ -36,7 +36,7 @@
         select {
           width: 100%;
           color: black;
-          padding: 12px 20px;
+          padding: 20px 20px;
           margin: 8px 0;
           box-sizing: border-box;
         }
@@ -44,8 +44,6 @@
         .play_button {
           width: 100%;
           padding: 12px 20px;
-          margin: 8px 0;
-          box-sizing: border-box;
           background-color: darkred;
           color: white;
           font-family: midenglish;
@@ -57,7 +55,7 @@
     </style>
 
     <!-- HTML CODE FOR INPUT FORM -->
-  <form name="inputForm" action="{{ url_for('new_game') }}" class="form-inline" onsubmit="return validateForm()">
+  <form name="inputForm" action="{{ url_for('new_game') }}" class="form-inline" onsubmit=" validateForm()">
     <div class="form-group vspace">
       <h3>Enter your name:</h3>
       <script language="Javascript">
@@ -90,11 +88,11 @@
           }
     </script>
       <button class="play_button" onmousedown="playSoundButton('/static/click.mp3')" type="submit">Play!</button>
-      <br><br><br><br><br><br>
+      <br><br><br><br><br><br><br><br><br><br><br><br><br>
     </div>
   </form>
     <!-- HEADING FOR LEADERBOARD -->
-    <h2>Leaderboard</h2>
+    <h2 style="color: white;">Leaderboard</h2>
     <br><br>
     <!-- TABLE FOR TOP 10 WINNERS OF CATEGORY: EASY -->
   <div>
@@ -109,12 +107,12 @@
               <th style="background-color: white; color: black">Errors</th>
               <th style="background-color: white; color: black">Points</th>
           <tbody>
-            {% for game in games %}
+            {% for game in games_easy %}
               <tr>
                 <td style="background-color: white; color: black">{{ loop.index }}</td>
                 <td style="background-color: white; color: black">{{ game.player }}</td>
                 <td class="text-success">{{ game.current}}</td>
-                <td style="background-color: white; color: black" class="text-danger spaced">{{ game.errors }}</td>
+                <td style="background-color: white; color: black" class="text-danger spaced">{{ game.real_errors }}</td>
                 <td style="background-color: white; color: black">{{ game.points }}</td>
             {% endfor %}
         </table>
@@ -132,12 +130,12 @@
               <th style="background-color: white; color: black">Errors</th>
               <th style="background-color: white; color: black">Points</th>
           <tbody>
-            {% for game in games %}
+            {% for game in games_medium %}
               <tr>
                 <td style="background-color: white; color: black">{{ loop.index }}</td>
                 <td style="background-color: white; color: black">{{ game.player }}</td>
                 <td class="text-success">{{ game.current }}</td>
-                <td style="background-color: white; color: black" class="text-danger spaced">{{ game.errors }}</td>
+                <td style="background-color: white; color: black" class="text-danger spaced">{{ game.real_errors }}</td>
                 <td style="background-color: white; color: black">{{ game.points }}</td>
             {% endfor %}
         </table>
@@ -155,12 +153,12 @@
               <th style="background-color: white; color: black">Errors</th>
               <th style="background-color: white; color: black">Points</th>
           <tbody>
-            {% for game in games %}
+            {% for game in games_hard %}
               <tr>
                 <td style="background-color: white; color: black">{{ loop.index }}</td>
                 <td style="background-color: white; color: black">{{ game.player }}</td>
                 <td class="text-success">{{ game.current }}</td>
-                <td style="background-color: white; color: black" class="text-danger spaced">{{ game.errors }}</td>
+                <td style="background-color: white; color: black" class="text-danger spaced">{{ game.real_errors }}</td>
                 <td style="background-color: white; color: black">{{ game.points }}</td>
             {% endfor %}
         </table>
