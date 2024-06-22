@@ -50,6 +50,11 @@ Easy allows for 6 tries for a 4 to 6 letter word.
 Medium allows for 6 tries for a word between 6 to 9 letters.
 Hard allows for 6 tries for words longer than 9 letters.
 
+# Screenshots
+
+![screenshot1](screenshots/screenshot1.png)
+![screenshot2](screenshots/screenshot2.png)
+
 # Links
 
 * Hangman github repository: https://github.com/vlopezferrando/hangman
