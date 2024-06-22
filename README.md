@@ -4,7 +4,7 @@ Simple hangman game implemented with Flask
 
 # User Manual
 
-# How to run the game
+## How to run the game
 
 You can download the source files and run "python hangman.py" to run it in the browser
 
